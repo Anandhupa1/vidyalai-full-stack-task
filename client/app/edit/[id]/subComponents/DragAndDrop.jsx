@@ -9,23 +9,28 @@ const DraggablePageList = ({ file, selectedPages, setSelectedPages }) => {
   };
 
   if (!selectedPages || selectedPages.length === 0) {
-    return <p className="text-center text-white mt-4">No pages selected</p>;
+    return<div className="flex justify-center items-center text-white mt-4 w-full bg-gray-800">
+    
+  </div>
+  
   }
 
   return (
+    <>
+    <h1>Selected Pages</h1>
     <Droppable droppableId="selectedPages" direction="horizontal">
       {(provided) => (
         <div
-          className="mt-4  overflow-x-auto whitespace-nowrap scrollbar scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300"
+          className="mt-4  overflow-x-auto whitespace-nowrap scrollbar scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300 "
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
           {selectedPages.map((pageNumber, index) => (
-            <Draggable  className="mt-4 flex overflow-x-auto whitespace-nowrap scrollbar scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300"
+            <Draggable  className="mt-4  flex  overflow-x-auto whitespace-nowrap scrollbar scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300"
             key={pageNumber} draggableId={String(pageNumber)} index={index}>
               {(provided) => (
                 <div
-                  className="relative w-34 h-48 m-2 overflow-hidden inline-block"
+                  className="relative rounded-lg w-34 h-48 m-2 overflow-hidden inline-block"
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
@@ -51,6 +56,7 @@ const DraggablePageList = ({ file, selectedPages, setSelectedPages }) => {
         </div>
       )}
     </Droppable>
+    </>
   );
 };
 

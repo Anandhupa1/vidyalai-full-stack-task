@@ -14,7 +14,13 @@ const { pdfRouter } = require("./routes/pdf");
 app.use(express.json());
 
 //external middlewares__________________________________
-app.use(cors());
+
+app.use(cors({
+    origin: '*', // Allow all origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow all standard methods
+    exposedHeaders: ['Content-Disposition', 'Authorization', 'Content-Type'] // Expose additional headers to the frontend
+  }));
+  
 
 // router-level middlewares_____________________________
 app.use("/user",userRouter);

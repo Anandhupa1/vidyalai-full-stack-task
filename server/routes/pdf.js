@@ -75,12 +75,12 @@ pdfRouter.post('/extract-pages',authenticateUser, async (req, res) => {
  
       // Validate new PDF name
       if (typeof newPdfName !== 'string' || newPdfName.trim() === '') {
-        return res.status(400).send('Invalid new PDF name');
+        return res.status(400).send({message:'Invalid new PDF name'});
       }
   
       const sanitizedNewPdfName = newPdfName.trim().replace(/[^a-zA-Z0-9-_]/g, '');
       if (sanitizedNewPdfName === '') {
-        return res.status(400).send('Invalid new PDF name');
+        return res.status(400).send({message:'Invalid new PDF name'});
       }
   
       // Find the PDF in the database
@@ -141,10 +141,10 @@ pdfRouter.get('/download/:pdfId', authenticateUser, async (req, res) => {
       // Find the PDF in the database
       const pdf = await PDFModel.findById(pdfId);
   
-      // Check if the PDF exists and belongs to the authenticated user
-      if (!pdf || pdf.userId.toString() !== req.user._id.toString()) {
-        return res.status(404).json({ message: 'PDF not found or access denied' });
-      }
+// currently disabled for pdf sharing option----Check if the PDF exists and belongs to the authenticated user
+      // if (!pdf || pdf.userId.toString() !== req.user._id.toString()) {
+      //   return res.status(401).json({ message: 'You are not allowed to edit this file. ' });
+      // }
   
       // Set the headers for file download
       res.setHeader('Content-Type', 'application/pdf');

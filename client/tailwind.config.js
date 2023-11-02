@@ -4,6 +4,9 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  daisyui: {
+    themes: [ "dark"],
+  },
   theme: {
     extend: {
       maxWidth: {
@@ -22,5 +25,6 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require("daisyui"),
   ],
 }

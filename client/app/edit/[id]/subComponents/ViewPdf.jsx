@@ -1,51 +1,13 @@
 import React, { useState, useEffect, memo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import {LiaTrashAltSolid} from "react-icons/lia"
 import DraggablePageList from "./DragAndDrop";
 import { DragDropContext } from "react-beautiful-dnd";
+import useResponsiveWidth from "./UseResponsiveWidth";
+import PDFPage from "./PDFpage";
+import UpdateForm from "./UpdateForm";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const useResponsiveWidth = () => {
-  const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  if (width < 640) return 100; // Tailwind sm breakpoint
-  if (width < 768) return 135; // Tailwind md breakpoint
-  return 200; // Tailwind lg breakpoint
-};
-
-const PDFPage = memo(({ pageNumber, selected, onSelect }) => {
-  const pageWidth = useResponsiveWidth();
-
-  return (
-    <div
-      onClick={() => onSelect(pageNumber)}
-      className={`relative w-34 h-48 border inline-block ${selected ? 'border-blue-500' : 'border-white'}
-       rounded-md overflow-hidden shadow-xl cursor-pointer m-2`}
-    >
-      <Page pageNumber={pageNumber} width={150} height={200} />
-      <div className="absolute top-2 left-2 flex items-center">
-        <input
-          type="checkbox"
-          checked={selected}
-          readOnly
-          className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-300 rounded"
-        />
-        <span className="ml-2 text-black">{pageNumber}</span>
-      </div>
-    </div>
-  );
-});
-
-
-
-
-const PDFViewer = ({ file }) => {
+const PDFViewer = ({ file,id }) => {
   const [numPages, setNumPages] = useState(null);
   const [selectedPages, setSelectedPages] = useState([]);
 
@@ -77,7 +39,8 @@ const onDragEnd = (result) => {
 
 
   return (
-    <div className="bg-gray-900 text-white p-4">
+    <>
+    <div className="bg-gray-900 rounded-lg text-white p-4">
       <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
         <div className="overflow-x-auto whitespace-nowrap scrollbar scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300">
           {Array.from(new Array(numPages), (_, index) => {
@@ -93,12 +56,13 @@ const onDragEnd = (result) => {
           })}
         </div>
       </Document>
-
-       
-    {/* drag and drop */}
-    <div className="bg-gray-900 text-white p-4">
+      
+      
+      
+    {/* drag and drop  starts here*/}
+    <div className="bg-gray-900 text-white ">
+     
       <DragDropContext onDragEnd={onDragEnd}>
-        {/* ... other components ... */}
         <DraggablePageList
           file={file}
           selectedPages={selectedPages}
@@ -109,6 +73,9 @@ const onDragEnd = (result) => {
     {/* drag and drop endds */}
    
     </div>
+   {selectedPages.length>0 && <UpdateForm selectedPages={selectedPages} id={id}/>}
+   
+    </>
   );
 };
 
