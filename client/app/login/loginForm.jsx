@@ -71,8 +71,10 @@ const handleSubmit =async (e) => {
       </button>
       <Link href="/register">
       <p className="text-blue-500 underline text-left text-xs mt-6 cursor-pointer">
-         Don't have an account? Please sign up.
+         Don&apos;t have an account? Please sign up.
       </p>
+
+
       </Link>
     </form>
   );

@@ -32,14 +32,38 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
     }
   });
 
-  pdfRouter.get('/user-pdfs',authenticateUser, async (req, res) => {
+  pdfRouter.get('/user-pdfs', authenticateUser, async (req, res) => {
     try {
-      const userPDFs = await PDFModel.find({ userId: req.user._id });
-      res.json(userPDFs);
+      // Get page number and limit from query parameters
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 6; // Default limit is 6 if not specified
+  
+      // Calculate the 'skip' value
+      const skip = (page - 1) * limit;
+  
+      // Query for getting the total count of documents
+      const totalCount = await PDFModel.countDocuments({ userId: req.user._id });
+  
+      // Get paginated documents sorted by a 'createdAt' field in descending order
+      // Make sure to replace 'createdAt' with the actual timestamp field from your schema
+      const userPDFs = await PDFModel.find({ userId: req.user._id })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+  
+      // Return the paginated result and total pages
+      res.json({
+        totalPages: Math.ceil(totalCount / limit),
+        currentPage: page,
+        limit: limit,
+        totalItems: totalCount,
+        items: userPDFs
+      });
     } catch (error) {
       res.status(500).send(error.message);
     }
   });
+  
 
 pdfRouter.get('/:pdfId',authenticateUser, async (req, res) => {
     try {

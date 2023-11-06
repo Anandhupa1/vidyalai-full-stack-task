@@ -19,4 +19,7 @@ const PDFPage = memo(({ pageNumber, selected, onSelect }) => {
     );
   });
 
+
+
+  PDFPage.displayName = 'PDFPage';
   export default PDFPage;

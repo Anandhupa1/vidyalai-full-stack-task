@@ -13,19 +13,8 @@ const FileUploadButton = ({ onFileSelect }) => {
 
   return (
     <div className="w-full">
-      <label
-        htmlFor="file-upload"
-        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition cursor-pointer inline-block text-center"
-      >
-        Browse PDF
-      </label>
-      <input
-        id="file-upload"
-        type="file"
-        className="hidden"
-        accept=".pdf"
-        onChange={handleFileChange}
-      />
+      
+    
       <p className="text-gray-300 mt-2 text-xs">{fileName}</p>
     </div>
   );
