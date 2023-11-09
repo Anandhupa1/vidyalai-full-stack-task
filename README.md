@@ -1,36 +1,69 @@
-# Fullstack developer task
+# PDF Manager :page_facing_up:
 
-## Task Description:
-You are tasked to develop a web application that allows users to upload a PDF file and extract certain pages from the PDF to create a new PDF. The user should be able to select which pages they want to include in the new PDF.
 
-## Frontend (Any React framework):
-- Implement a simple form to upload a PDF file. The form should include validation to ensure that only PDF files are uploaded.
-- Once the file is uploaded, display a visual representation of all pages in the PDF.
-- Allow users to select which pages they want to extract from the original PDF. This can be achieved through checkboxes or a similar UI element associated with each page.
-- Include a button or functionality to create the new PDF based on the selected pages. Once completed, offer a download link to the user for the newly created PDF.
-- All pages should be responsive and should work from mobile devices.
 
-## Backend (Any Node.js framework):
-- Create a REST API to handle the upload of the PDF file and store it on the server.
-- Create a REST API to retrieve the stored PDF file for display.
-- Implement a REST API to extract the selected pages from the original PDF and create a new PDF. You can use any PDF library to achieve this in the Node.js framework you use.
-- Ensure all APIs work correctly and handle potential errors.
+PDF Manager is a robust web application designed to streamline the way users manage PDF files. It provides a secure platform for users to upload, edit, reorder pages, and seamlessly share their documents with a community. Empower your PDF handling experience with PDF Manager today!
 
-## Bonus:
-- Add frontend and backend tests.
-- Add a live hosted version of the app
-- Implement user authentication so that each user can have their own set of PDF files.
-- Allow the user to rearrange the order of selected pages in the new PDF.
+## Features :sparkles:
 
-## Submission:
-- Submit your work by filling [this form](https://docs.google.com/forms/d/e/1FAIpQLSeACdInJitqQ8hncrJdsTYEXVuts0Rb_WlMhLihXz06MTFmwA/viewform) with a link to your repository.
-- Add clear instructions on how to run your code in the README
-- Add screenshots of various states of your app
+- 🚀 **Efficient Authentication**: Sign up, log in, and Google OAuth for easy access.
+- 📚 **PDF Management**: Upload and access your collection of PDFs.
+- 📝 **Edit Your PDFs**: Select specific pages and edit the order to your preference.
+- 💾 **Save & Versioning**: Keep different versions of your edited PDFs in the database.
+- 📥 **Easy Downloads**: Download your PDFs effortlessly.
+- 🌐 **Community Sharing**: Share your documents with the public community.
 
-## Evaluation:
-- Correctness: Does the application work as expected?
-- Code Quality: Is the code well-organized, commented, and easy to understand?
-- User Experience: Is the application easy to use and intuitive?
-- Error Handling: How does the application handle potential errors?
-- Documentation: Is the code and the setup process well-documented?
+## Tech Stack :wrench:
 
+Our application leverages a combination of modern technologies to deliver a top-notch user experience.
+
+### Frontend
+
+- **Next.js (React)** - The React framework for production.
+- **Tailwind CSS with `daisyui`** - For beautiful, responsive UIs.
+- **`react-pdf`, `pdfjs-dist`** - For rendering and manipulating PDFs in the browser.
+- **`react-beautiful-dnd`, `react-dnd`, `react-dnd-html5-backend`** - For intuitive drag-and-drop interfaces.
+- **`react-icons`** - To enhance the user interface with meaningful icons.
+- **`sweetalert2` with `sweetalert2-react-content`** - For engaging alerts and modals.
+- **`uuid`** - For generating unique identifiers.
+
+### Backend
+
+- **Express.js on Node.js** - For a minimalist and flexible server.
+- **`bcrypt`**, **`jsonwebtoken`** - For secure authentication practices.
+- **MongoDB with Mongoose** - For scalable database management.
+- **AWS S3** - For reliable file storage solutions.
+- **`pdf-lib`** - For comprehensive PDF manipulations.
+- **`nodemon`** - For an improved development experience.
+
+### Deployment & Operations
+
+- **Amazon EC2** - For reliable server hosting.
+- **PM2** - For process management and keeping services alive.
+- **Load Balancing** - To ensure high availability and reliability.
+
+## Getting Started :rocket:
+
+To get a local copy up and running, follow these simple steps.
+
+```bash
+# Clone the repository
+git clone https://github.com/Anandhupa1/vidyalai-full-stack-task.git
+
+# Navigate to the frontend directory
+cd "vidyalai-full-stack-task\client"
+
+# Install dependencies
+npm install
+
+# Start the frontend application
+npm run dev
+
+# Navigate to the backend directory from the project root
+cd "vidyalai-full-stack-task\server"
+
+# Install dependencies
+npm install
+
+# Start the backend server
+npm run server
