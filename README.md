@@ -59,12 +59,19 @@ npm install
 # Start the frontend application
 npm run dev
 ```
+### Change Server URL 
+By default, the application will use the deployed [server-url](https://kind-gray-coypu-suit.cyclic.app/). If you wish to change it, modify the `baseUrl.js` file found at the following path:
+
+📁 `client` > 📁 `app` > 📁 `utils` > 📄 `baseUrl.js`
+
+Change the server URL to your preferred endpoint . 
+
 ## Backend
 
 ### Live Deployment
 
 Access the deployed server here:
-- [PDF Manager Live Server](https://pdfeditor-anandhupa1.vercel.app/)
+- [PDF Manager Live Server](https://kind-gray-coypu-suit.cyclic.app/)
 
 ### Local Setup Guides
 
@@ -75,6 +82,7 @@ For setting up the server locally, choose one of the following storage options a
 
 - **Local Disk Storage:** For using local disk storage, see the Local Disk Storage Server Setup Documentation linked here:
    - [Local Disk Storage Server Setup Documentation](https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/server)
+
 
 
 ## 🙏 Acknowledgements
