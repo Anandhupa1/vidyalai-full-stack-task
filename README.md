@@ -6,7 +6,7 @@ PDF Manager is a robust web application designed to streamline the way users man
 
 ## Features :sparkles:
 
-- 🚀 **Efficient Authentication**: Sign up, log in, and Google OAuth for easy access.
+- 🚀 **Efficient Authentication**: Sign up, log in.
 - 📚 **PDF Management**: Upload and access your collection of PDFs.
 - 📝 **Edit Your PDFs**: Select specific pages and edit the order to your preference.
 - 💾 **Save & Versioning**: Keep different versions of your edited PDFs in the database.
