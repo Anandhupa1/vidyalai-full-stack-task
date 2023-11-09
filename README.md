@@ -71,12 +71,13 @@ Access the deployed server here:
 For setting up the server locally, choose one of the following storage options and follow the respective documentation:
 
 - **AWS S3 Storage:** For using AWS S3 bucket for file storage, refer to the AWS S3 Storage Server Setup Documentation provided below:
-   - [AWS S3 Storage Server Setup Documentation](LINK-TO-YOUR-AWS-S3-SETUP-DOCUMENTATION)
+   - [AWS S3 Storage Server Setup Documentation](https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/scalable-server%20-with-awsS3Bucket-storage)
 
 - **Local Disk Storage:** For using local disk storage, see the Local Disk Storage Server Setup Documentation linked here:
    - [Local Disk Storage Server Setup Documentation](LINK-TO-YOUR-LOCAL-STORAGE-SETUP-DOCUMENTATION)
 
-## Acknowledgements
+
+## 🙏 Acknowledgements
 
 Thanks for viewing the PDF Manager documentation. If you have any questions or feedback, please feel free to reach out .
 
