@@ -44,7 +44,7 @@ Our application leverages a combination of modern technologies to deliver a top-
 
 ## Getting Started :rocket:
 
-To get a local copy up and running, follow these simple steps.
+To get a local frontend application up and running, follow these simple steps.
 
 ```bash
 # Clone the repository
@@ -58,12 +58,29 @@ npm install
 
 # Start the frontend application
 npm run dev
+```
+## Backend
 
-# Navigate to the backend directory from the project root
-cd "vidyalai-full-stack-task\server"
+### Live Deployment
 
-# Install dependencies
-npm install
+Access the deployed server here:
+- [PDF Manager Live Server](https://pdfeditor-anandhupa1.vercel.app/)
 
-# Start the backend server
-npm run server
+### Local Setup Guides
+
+For setting up the server locally, choose one of the following storage options and follow the respective documentation:
+
+- **AWS S3 Storage:** For using AWS S3 bucket for file storage, refer to the AWS S3 Storage Server Setup Documentation provided below:
+   - [AWS S3 Storage Server Setup Documentation](LINK-TO-YOUR-AWS-S3-SETUP-DOCUMENTATION)
+
+- **Local Disk Storage:** For using local disk storage, see the Local Disk Storage Server Setup Documentation linked here:
+   - [Local Disk Storage Server Setup Documentation](LINK-TO-YOUR-LOCAL-STORAGE-SETUP-DOCUMENTATION)
+
+## Acknowledgements
+
+Thanks for viewing the PDF Manager documentation. If you have any questions or feedback, please feel free to reach out .
+
+---
+
+
+
