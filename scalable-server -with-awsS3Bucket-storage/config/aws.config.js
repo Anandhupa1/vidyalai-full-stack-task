@@ -5,10 +5,10 @@ require('dotenv').config();
 // Configure AWS with environment variables
 const s3Client = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID1,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY1,
   },
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION1,
 });
 
 module.exports = {

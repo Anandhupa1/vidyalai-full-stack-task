@@ -31,12 +31,13 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
     // The multer-s3 should attach the file information to the request object.
     // With AWS SDK v3, it might be under a different property, such as 'key' or you may need to construct the file URL manually.
     const { originalname, key } = req.file;
-    const location = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+    // const location = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+    const location = key;
 
     // Create a new PDF entry using your model, assuming your database model accepts these fields.
     const newPDF = await PDFModel.create({
       filePath: location, // This should be the URL where the file is accessible.
-      originalName: originalname,
+      originalName: originalname.slice(0,-4),
       userId: req.user._id, // This assumes that 'req.user' is populated by your authentication middleware.
     });
 
@@ -81,7 +82,7 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
     }
   });
 
-  pdfRouter.get('/:pdfId', authenticateUser, async (req, res) => {
+  pdfRouter.get('/:pdfId', async (req, res) => {
     try {
       const pdfId = req.params.pdfId;
       const pdf = await PDFModel.findById(pdfId);
@@ -90,9 +91,9 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
         return res.status(404).send({ message: 'PDF not found' });
       }
   
-      if (pdf.userId.toString() !== req.user._id.toString()) {
-        return res.status(403).send({ message: 'You do not have permission to access this PDF' });
-      }
+      // if (pdf.userId.toString() !== req.user._id.toString()) {
+      //   return res.status(403).send({ message: 'You do not have permission to access this PDF' });
+      // }
   
       // Extract the key from the full file path
       const key = pdf.filePath.split('/').pop();
@@ -120,6 +121,8 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
       res.status(500).send({ message: error.message });
     }
   });
+
+
 
 
 
