@@ -1,21 +1,16 @@
 import baseUrl from '@/app/utils/baseUrl';
-import Link from 'next/link'
-import React from 'react'
+import showAlert from '../utils/showAlert';
 
 
-function DownloadBtn({id}) {
- // Assuming you have a function to get the authentication token
-function getAuthToken() {
-    // Retrieve your auth token from where it's stored (e.g., local storage, state management)
-    return 'your-auth-token';
-  }
-  
+function DownloadBtn({id,setLoading}) {
+
   async function download(pdfId) {
     // Construct the URL for the download endpoint
     const url = `${baseUrl}/pdf/download/${id}`;
   
     try {
       // Make the GET request to the server using the fetch API
+      setLoading(true)
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -23,7 +18,7 @@ function getAuthToken() {
           'Content-Type': 'application/json',
         },
       });
-  
+      setLoading(false)
       // Check if the request was successful
       if (response.ok) {
         // Extract the filename from the Content-Disposition header
@@ -43,12 +38,14 @@ function getAuthToken() {
       } else {
         // If the server response was not ok, handle errors
         const error = await response.json();
-        alert(`Download error: ${error.message}`);
+        console.error(`Download error: ${error.message}`);
+        showAlert("Download Error","please try again","error")
       }
     } catch (error) {
       // Handle network errors
+      setLoading(false)
       console.error('Download failed', error);
-      alert("Oops, something went wrong, please try again later..");
+      showAlert("Oops ! , something went wrong","please try again later","error")
     }
   }
   

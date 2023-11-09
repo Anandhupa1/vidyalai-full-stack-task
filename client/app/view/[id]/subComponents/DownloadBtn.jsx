@@ -4,11 +4,6 @@ import React from 'react'
 
 
 function DownloadBtn({id}) {
- // Assuming you have a function to get the authentication token
-function getAuthToken() {
-    // Retrieve your auth token from where it's stored (e.g., local storage, state management)
-    return 'your-auth-token';
-  }
   
   async function download(pdfId) {
     // Construct the URL for the download endpoint

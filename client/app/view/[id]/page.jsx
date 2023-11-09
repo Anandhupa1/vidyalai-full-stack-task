@@ -1,80 +1,62 @@
 "use client"
-import React, { useState } from 'react';
-import InputField from '../../components/TextInput';
-import GoogleAuthButton from '../../components/GoogleAuthButton';
-import baseUrl from '../../utils/baseUrl';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import showAlert from '../../utils/showAlert';
+import { isValidObjectId } from '@/app/utils/validations'
+import  { useState } from 'react';
+import PDFViewer from './subComponents/ViewPdf';
+import baseUrl from '@/app/utils/baseUrl';
+import Loader from '@/app/components/Loader';
+import showAlert from '@/app/utils/showAlert';
+import Navbar from '@/app/components/Navbar';
 
-export default function LoginForm() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const router = useRouter(); // Initialize the router
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let res = await fetch(`${baseUrl}/user/login`, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-    let data = await res.json();
-    if (res.status === 201) {
-      sessionStorage.setItem('token', data.token);
-      alert(data.message);
-      router.push('/my-files'); // Use router.push to navigate to the /my-files page
-    } else if (res.status === 500) {
-      alert('Sorry, currently we are not able to process your request, please try after some time.');
-    } else if (res.status === 404) {
-      alert(data.message);
-      router.push('/register'); // Use router.push to navigate to the /register page
-    } else {
-      alert(data.message);
+function Page({params:{id}}) {
+  const [file, setFile] = useState(null);
+  const [Loading ,setLoading]=useState(true);
+  useState(async()=>{
+    if(!isValidObjectId(id)){ return <h1>pdf not found</h1>}
+    else{
+    try {
+        setLoading(true)
+        const response = await fetch(`${baseUrl}/pdf/${id}`);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const blob = await response.blob();
+        const file = new File([blob], "filename.pdf", { type: "application/pdf" });
+        setFile(file);
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+        showAlert("Error","something went wrong , please try again later..","error")
+        console.error('There has been a problem with your fetch operation:', error);
+      }
     }
-  };
+  },[])
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-mdw-full bg-white dark:bg-zinc-800 rounded-xl p-8  shadow-md"
-    >
-      <h1 className="text-2xl font-bold text-center mb-4">Sign In</h1>
-      <GoogleAuthButton />
-      <p className="text-center">or</p>
-      <InputField
-        label="Email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        id="email"
-        name="email"
-      />
-      <InputField
-        label="Password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange}
-        id="password"
-        name="password"
-      />
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
-      >
-        Submit
-      </button>
-      <Link href="/register">
-        <p className="text-blue-500 underline text-left text-xs mt-6 cursor-pointer">
-          do not have an account? Please sign up.
-        </p>
-      </Link>
-    </form>
-  );
-}
+    <>
+     <Navbar/>
+    
+    <div className="dark:bg-gray-800  bg-white min-h-screen transition-colors duration-300 mt-10">
+    {Loading && <Loader/>}
+    <div className="container mx-auto px-5">
+      <header className="py-10">
+        <h1 className="text-3xl font-bold dark:text-white"> Your File</h1>
+      </header>
+
+      <main>
+      {file && <PDFViewer file={file} id={id}/>}
+      </main>
+
+    </div>
+  </div>
+  </>
+  )
+  }
+
+
+
+
+export default Page

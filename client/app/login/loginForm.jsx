@@ -5,20 +5,23 @@ import GoogleAuthButton from '../components/GoogleAuthButton';
 import baseUrl from '../utils/baseUrl';
 import Link from 'next/link';
 import showAlert from '../utils/showAlert';
-
+import {  useRouter } from 'next/navigation';
+import Loader from '../components/Loader';
 
 export default function LoginForm() {
+  const router=useRouter();
+  const [loading,setLoading]=useState(false)
   const [formData, setFormData] = useState({ email: '', password: '' });
-  // showAlert()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
 const handleSubmit =async (e) => {
-    
-    
-    e.preventDefault();
+  e.preventDefault();
+    try {
+      
+    setLoading(true)
     let res = await fetch(`${baseUrl}/user/login`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -27,21 +30,34 @@ const handleSubmit =async (e) => {
         },
       })
     let data = await res.json();
+    setLoading(false)
     if(res.status=="201"){
         sessionStorage.setItem("token",data.token)
-        alert(data.message)
-        window.location.href="/my-files"
-        
+        showAlert("Success",data.message,"success")
+        router.back()
     }
-    else if(res.status=="500"){alert("sorry, currently we are not able to process your request, please try after some time.")}
-    else if(res.status=="404"){alert(data.message);
-      window.location.href="/register"
+    else if(res.status=="500"){
+
+      showAlert("Error","sorry, currently we are not able to process your request, please try after some time.","error")
     }
-    else {alert(data.message)}
+    else if(res.status=="404"){
+
+      showAlert("",data.message,"warning")
+      router.push("/register")
+      
+    }
+    else { showAlert("",data.message,"warning")}
+    } catch (error) {
+      setLoading(false)
+      showAlert("Oops!","Something went wrong, please try again later","error")
+    }
+
     
 };
 
   return (
+  <>
+  {loading && <Loader/>}
   <form onSubmit={handleSubmit} className="max-w-mdw-full bg-white dark:bg-zinc-800 rounded-xl p-8  shadow-md">
   <h1   className="text-2xl font-bold text-center mb-4">Sign In</h1>
       
@@ -77,5 +93,6 @@ const handleSubmit =async (e) => {
 
       </Link>
     </form>
+    </>
   );
 }

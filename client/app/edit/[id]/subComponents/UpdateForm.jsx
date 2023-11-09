@@ -1,14 +1,17 @@
 import baseUrl from '@/app/utils/baseUrl';
+import showAlert from '@/app/utils/showAlert';
+import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react'
 
 
 
-function UpdateForm({id,selectedPages}) {
-  const pdfName=useRef("")
+function UpdateForm({id,selectedPages,setLoading}) {
+  const pdfName=useRef("");
+  const router = useRouter();
     async function create(e){
         e.preventDefault();
         try {
-            
+        setLoading(true)
         let res = await fetch(`${baseUrl}/pdf/extract-pages`, {
             method: 'POST',
             body: JSON.stringify({
@@ -22,12 +25,19 @@ function UpdateForm({id,selectedPages}) {
               'Authorization': `Bearer ${sessionStorage.getItem("token")}`,
             },
           })
+        
         let data = await res.json();
-        alert(JSON.stringify(data.message))
-        window.location.href=`/view/${data.newPdfId}`
+        
+        if(res.ok){showAlert(data.message,"","success");router.push(`/view/${data.newPdfId}`)}
+        else {
+          setLoading(false)
+          showAlert(data.message)}
+        
+        
         } catch (error) {
-            alert("something went wrong ")
-            console.log(error)
+          setLoading(false)
+            showAlert("Oops ..","something went wrong , please try again later","error")
+            console.error("error in uploading new pdf ",error)
         }
        
     }

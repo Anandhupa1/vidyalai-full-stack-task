@@ -7,7 +7,7 @@ import PDFPage from "./PDFpage";
 import UpdateForm from "./UpdateForm";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDFViewer = ({ file,id }) => {
+const PDFViewer = ({ file,id,setLoading }) => {
   const [numPages, setNumPages] = useState(null);
   const [selectedPages, setSelectedPages] = useState([]);
 
@@ -73,7 +73,7 @@ const onDragEnd = (result) => {
     {/* drag and drop endds */}
    
     </div>
-   {selectedPages.length>0 && <UpdateForm selectedPages={selectedPages} id={id}/>}
+   {selectedPages.length>0 && <UpdateForm selectedPages={selectedPages} setLoading={setLoading} id={id}/>}
    
     </>
   );

@@ -4,14 +4,18 @@ import InputField from '../components/TextInput';
 import GoogleAuthButton from '../components/GoogleAuthButton';
 import Link from 'next/link';
 import baseUrl from '../utils/baseUrl';
+import showAlert from '../utils/showAlert';
+import Loader from '../components/Loader';
+import { useRouter } from 'next/navigation';
 
 
 
 
 export default function LoginForm() {
 
+  const [loading,setLoading]=useState(false)
   const [formData, setFormData] = useState({ email: '', password: '' ,name:'',cPassword:''});
-
+  const router =useRouter()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -19,26 +23,43 @@ export default function LoginForm() {
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    let res = await fetch(`${baseUrl}/user/register`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-    let data = await res.json();
-    if(res.status=="201"){
-        alert(data.message)
-        window.location.href="/login"
-       
-       
+    try {
+    setLoading(true)
+  let res = await fetch(`${baseUrl}/user/register`, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+  let data = await res.json();
+  setLoading(false)
+  if(res.status=="201"){
+      showAlert("success",data.message,"success");
+      router.push("/login")
+  }
+  else if(res.status=="500"){
+    showAlert("Error","sorry, currently we are not able to process your request, please try after some time.","error")
+  }
+  else if(res.status=="409"){
+    showAlert("Please Login",data.message,"warning")
+    setTimeout(()=>{router.push("/login")},3000)
+  }
+  else {
+    showAlert("",data.message,"warning")
+  }
+    } catch (error) {
+      setLoading(false)
+      showAlert("Error","sorry, currently we are not able to process your request, please try after some time.","error")
+
     }
-    else if(res.status=="500"){alert("sorry, currently we are not able to process your request, please try after some time.")}
-    else {alert(data.message)}
+
     
   };
 
   return (
+  <>
+  {loading && <Loader/>}
   <form onSubmit={handleSubmit} className="max-w-mdw-full bg-white dark:bg-zinc-800 rounded-xl p-8  shadow-md">
   <h1   className="text-2xl font-bold text-center mb-4">Sign Up</h1>
       
@@ -90,5 +111,6 @@ export default function LoginForm() {
 
       </Link>
     </form>
+    </>
   );
 }

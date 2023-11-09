@@ -12,9 +12,19 @@ module.exports = {
       maxWidth: {
         'md': '32rem', 
       },
+      animation: {
+                'spin-fast': 'spin 0.5s linear infinite',
+       },
       colors: {
         neonBlue: '#4D4DFF',
         customYellow: '#FFD369',
+      },
+      backdropFilter: {
+        'none': 'none',
+        'sm': 'blur(4px)',
+        'md': 'blur(8px)',
+        'lg': 'blur(16px)',
+        // ... add other blur values if you like
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -28,3 +38,4 @@ module.exports = {
     require("daisyui"),
   ],
 }
+

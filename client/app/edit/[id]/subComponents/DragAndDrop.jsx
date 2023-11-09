@@ -17,7 +17,7 @@ const DraggablePageList = ({ file, selectedPages, setSelectedPages }) => {
 
   return (
     <>
-    <h1>Selected Pages</h1>
+    <h1 className="mt-5">drag and drop below files to change order.</h1>
     <Droppable droppableId="selectedPages" direction="horizontal">
       {(provided) => (
         <div

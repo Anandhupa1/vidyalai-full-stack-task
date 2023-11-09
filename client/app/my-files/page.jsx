@@ -7,6 +7,11 @@ import Link from 'next/link';
 import DownloadBtn from '../components/DownloadBtn';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import showAlert from '../utils/showAlert';
+import Loader from '../components/Loader';
+import DeleteBtn from '../components/DeleteBtn';
+
 
 function Page() {
   const [pdfData, setPdfData] = useState({
@@ -15,17 +20,21 @@ function Page() {
     limit: 8,
     items: [],
   });
-  const [error, setError] = useState(null);
-  const [currentPdfUrl, setCurrentPdfUrl] = useState("");
-
+  const [loading,setLoading]=useState(true)
   const router = useRouter();
-
+  const [reload,setReload]=useState(false);
+  function reloadData(){
+    setReload(!reload)
+  }
   useEffect(() => {
     (async () => {
       if (!window.sessionStorage.getItem("token")) {
-        router.push('/login');
+        setLoading(true)
+        router.push(`/login`);
+        
       } else {
         try {
+          setLoading(true)
           const limit = pdfData.limit; // You can also make this dynamic
           const response = await fetch(`${baseUrl}/pdf/user-pdfs?page=${pdfData.currentPage}&limit=${limit}`, {
             headers: {
@@ -38,19 +47,22 @@ function Page() {
           }
 
           const data = await response.json();
+          setLoading(false)
           setPdfData(prevState => ({
             ...prevState,
             totalPages: data.totalPages,
             items: data.items
           }));
         } catch (error) {
-          setError('Something went wrong, please try again later.');
+          setLoading(false)
+          showAlert("Oops!","Something went wrong, please try again later","error")
+          
           console.error('There has been a problem with your fetch operation:', error);
         }
       }
     })();
-  }, [pdfData.currentPage, router]);
-
+  }, [pdfData.currentPage,reload, router]);
+  
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pdfData.totalPages) {
       setPdfData(prevState => ({
@@ -68,7 +80,8 @@ function Page() {
   return (
     <>
       <Navbar/>
-      <div className="dark:bg-gray-800 bg-white min-h-screen transition-colors duration-300">
+      {loading && <Loader/>}
+      <div className="dark:bg-gray-800 bg-white min-h-screen transition-colors duration-300 mt-10">
         <div className="container mx-auto px-5 py-20">
           <main>
             <h1 className="text-xl font-bold text-gray-800 dark:text-white mb-6">My Files</h1>
@@ -77,7 +90,10 @@ function Page() {
               <>
                 <p className="text-gray-600 dark:text-gray-400">No files found.</p>
                 <div className="flex mt-5">
+                  <Link href="/upload">
                   <button className='btn btn-primary'>Upload</button>
+                  </Link>
+                  
                 </div>
               </>
             ) : (
@@ -87,7 +103,7 @@ function Page() {
                     <div className="mb-2">
                       <div className='flex justify-between w-full align-top'>
                         <h5 className="text-lg font-bold text-gray-800 pt-3 dark:text-white">{pdf.originalName.split("-")[0] + ".pdf"}</h5>
-                        <ShareBtn url={`/view/${pdf._id}`} />
+                        <ShareBtn url={`https://pdfeditor-anandhupa1.vercel.app/view/${pdf._id}`} />
                       </div>
                       <p className="text-sm text-gray-600 pt-3 dark:text-gray-400">
                         {formatDateTime(pdf.createdAt)}
@@ -100,14 +116,15 @@ function Page() {
                       >
                         edit
                       </Link>
-                      <DownloadBtn id={pdf._id} />
+                      <DeleteBtn setLoading={setLoading} reloadData={reloadData} id={pdf._id}/>
+                      <DownloadBtn setLoading={setLoading} id={pdf._id} />
                     </div>
                   </div>
                 ))}
               </div>
             )}
 
-            {pdfData.items.length > 0 && <Pagination
+            {pdfData.totalPages > 1 && <Pagination
               currentPage={pdfData.currentPage}
               totalPages={pdfData.totalPages}
               onPageChange={handlePageChange}
@@ -115,6 +132,8 @@ function Page() {
           </main>
         </div>
       </div>
+
+      {/* <Footer/> */}
     </>
   );
 }

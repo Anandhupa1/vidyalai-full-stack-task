@@ -3,6 +3,9 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // images: {
+  //   domains: ['cdn3.iconfinder.com'], // Add the domain from your error message here
+  // },
   webpack: (config, options) => {
     // Add a new rule for .node files
     config.module.rules.push({
