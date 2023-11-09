@@ -65,7 +65,7 @@ pdfRouter.post('/upload', authenticateUser, upload.single('pdf'), async (req, re
   });
   
 
-pdfRouter.get('/:pdfId',authenticateUser, async (req, res) => {
+pdfRouter.get('/:pdfId', async (req, res) => {
     try {
       const pdfId = req.params.pdfId;
       const pdf = await PDFModel.findById(pdfId);
@@ -74,10 +74,8 @@ pdfRouter.get('/:pdfId',authenticateUser, async (req, res) => {
         return res.status(404).send({message:'PDF not found'});
       }
   
-      if (pdf.userId.toString() !== req.user._id.toString()) {
-        return res.status(403).send({message:'You do not have access to this PDF'});
-      }
-      console.log(path)
+
+      // console.log(path)
       const filePath = path.join(__dirname, '..', pdf.filePath);
       res.sendFile(filePath);
     } catch (error) {
