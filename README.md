@@ -42,6 +42,16 @@ Our application leverages a combination of modern technologies to deliver a top-
 - **PM2** - For process management and keeping services alive.
 - **Load Balancing** - To ensure high availability and reliability.
 
+### Documentations
+Server with aws s3 bucket storage <a href="https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/scalable-server%20-with-awsS3Bucket-storage">  Click here</a> <br>
+Server with Local Storage <a href="https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/server">  Click here</a> <br>
+
+
+
+
+
+
+
 ## Getting Started :rocket:
 
 To get a local frontend application up and running, follow these simple steps.
