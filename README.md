@@ -74,7 +74,7 @@ For setting up the server locally, choose one of the following storage options a
    - [AWS S3 Storage Server Setup Documentation](https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/scalable-server%20-with-awsS3Bucket-storage)
 
 - **Local Disk Storage:** For using local disk storage, see the Local Disk Storage Server Setup Documentation linked here:
-   - [Local Disk Storage Server Setup Documentation](LINK-TO-YOUR-LOCAL-STORAGE-SETUP-DOCUMENTATION)
+   - [Local Disk Storage Server Setup Documentation](https://github.com/Anandhupa1/vidyalai-full-stack-task/tree/main/server)
 
 
 ## 🙏 Acknowledgements
